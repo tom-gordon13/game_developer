@@ -9,6 +9,7 @@ require('./config/database')
 
 const app = express();
 
+
 app.use(logger('dev'));
 
 // Process data in body of request if

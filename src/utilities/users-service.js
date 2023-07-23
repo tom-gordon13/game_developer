@@ -7,6 +7,7 @@ export async function signUp(userData) {
     // which will ultimately return a JSON Web Token (JWT)
 
     const token = await usersAPI.signUp(userData);
+
     // Persist the token
     localStorage.setItem('token', token)
     return getUser();
@@ -16,14 +17,11 @@ export async function signUp(userData) {
 export function getToken() {
     // getItem returns null if there is no string
     const token = localStorage.getItem('token')
+    
     if (!token) return null
-
+    
     // obtain the payload of the token
     const payload = JSON.parse(atob(token.split('.')[1]))
-
-    console.log(token)
-    console.log(payload)
-
 
     // A JWT exp is expressed in seconds, not miliseconds
     if (payload.exp < Date.now() / 1000) {
