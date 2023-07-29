@@ -15,18 +15,30 @@ export async function signUp(userData) {
 }
 
 export function getToken() {
-    // getItem returns null if there is no string
-    const token = localStorage.getItem('token')
-    
+    // Parsing document.cookie to get the token
+    const cookies = document.cookie.split(';');
+    console.log(cookies)
+    let token = null;
+
+    cookies.forEach(cookie => {
+        let [name, value] = cookie.split('=');
+        name = name.trim();
+        if (name === 'token') {
+            token = value;
+        }
+    });
+
+
+
     if (!token) return null
-    
+
     // obtain the payload of the token
     const payload = JSON.parse(atob(token.split('.')[1]))
 
     // A JWT exp is expressed in seconds, not miliseconds
     if (payload.exp < Date.now() / 1000) {
         // Token has expired - remove from localStorage
-        localStorage.removeItem('token');
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         return null
     }
     return token;
@@ -34,7 +46,8 @@ export function getToken() {
 
 export function getUser() {
     const token = getToken();
-
+    console.log(token)
+    console.log('shoot')
     // If there's a token, return the user in the payload
     return token ? JSON.parse(atob(token.split('.')[1])).user : null;
 }
@@ -45,7 +58,7 @@ export function logOut() {
 
 export async function login(credentials) {
     const token = await usersAPI.login(credentials);
-    localStorage.setItem('token', token)
+    // localStorage.setItem('token', token)
     return getUser();
 }
 
