@@ -3,6 +3,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
 
 require('dotenv').config();
 // Connect to db after the .env above
@@ -24,6 +25,7 @@ app.use(require('./config/checkToken'))
 
 // Put all API routes here (before the catch-all)
 app.use('/api/users', require('./routes/api/users'));
+// app.use(cors({ credentials: true, origin: 'http://http://localhost:3000/' }));
 
 
 // Catch-all route that will match al GET requests that don't match an 

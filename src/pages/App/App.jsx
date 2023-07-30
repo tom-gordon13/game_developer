@@ -11,22 +11,22 @@ import NavBar from '../../components/NavBar/NavBar';
 
 function App() {
   const [user, setUser] = useState(getUser())
-  
+  console.log(user ? 'There is a user' : 'there is NOT a user')
   return (
     <main className="App">
-    { user ? 
-    <>
-    <NavBar user={user}/>
-    <Routes>
-      {/*  Route components in here */}
-      <Route path="orders/new" element={<NewOrderPage />} />
-      <Route path="orders" element={<OrderHistoryPage />} />
-      {}
-    </Routes>
-    </>
-    : 
-    <AuthPage setUser={setUser}/>}
-    
+      {user ?
+        <>
+          <NavBar user={user} />
+          <Routes>
+            {/*  Route components in here */}
+            <Route path="orders/new" element={<NewOrderPage />} />
+            <Route path="orders" element={<OrderHistoryPage />} />
+            { }
+          </Routes>
+        </>
+        :
+        <AuthPage setUser={setUser} />}
+
     </main>
   );
 }

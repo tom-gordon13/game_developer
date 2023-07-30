@@ -15,18 +15,19 @@ export async function signUp(userData) {
 }
 
 export function getToken() {
+
     // Parsing document.cookie to get the token
     const cookies = document.cookie.split(';');
-    console.log(cookies)
+
     let token = null;
 
-    cookies.forEach(cookie => {
-        let [name, value] = cookie.split('=');
-        name = name.trim();
-        if (name === 'token') {
-            token = value;
-        }
-    });
+    // cookies.forEach(cookie => {
+    //     let [name, value] = cookie.split('=');
+    //     name = name.trim();
+    //     if (name === 'token') {
+    //         token = value;
+    //     }
+    // });
 
 
 
@@ -45,11 +46,30 @@ export function getToken() {
 }
 
 export function getUser() {
-    const token = getToken();
-    console.log(token)
-    console.log('shoot')
-    // If there's a token, return the user in the payload
-    return token ? JSON.parse(atob(token.split('.')[1])).user : null;
+    // let myVar = false
+
+    // // const token = usersAPI.fetchToken()
+    // const token = getToken();
+
+    // // If there's a token, return the user in the payload
+    // return token ? JSON.parse(atob(token.split('.')[1])).user : null;
+
+    let user = null;
+
+    usersAPI.fetchToken()
+        .then(token => {
+            if (token) {
+
+                user = JSON.parse(atob(token['token'].split('.')[1])).user;
+                return user
+            } else {
+                return null
+            }
+        })
+        .catch(err => console.error(err));
+    console.log('User', user)
+    return user;
+
 }
 
 export function logOut() {
@@ -58,6 +78,7 @@ export function logOut() {
 
 export async function login(credentials) {
     const token = await usersAPI.login(credentials);
+
     // localStorage.setItem('token', token)
     return getUser();
 }
