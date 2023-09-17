@@ -35,8 +35,8 @@ async function login(req, res) {
         const token = createJWT(user);
 
         // Set the JWT as a cookie
-        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none' });
-        // res.cookie('token', token, { secure: true, sameSite: 'none' });
+        // res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none' });
+        res.cookie('token', token, { secure: true, sameSite: 'none' });
 
         // validateToken(req, res, token
         res.json({ message: 'Logged In' })

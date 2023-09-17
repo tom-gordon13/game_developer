@@ -12,6 +12,9 @@ import NavBar from '../../components/NavBar/NavBar';
 function App() {
   const [user, setUser] = useState(getUser())
   console.log(user ? 'There is a user' : 'there is NOT a user')
+  console.log(user)
+  // user = 'test'
+
   return (
     <main className="App">
       {user ?

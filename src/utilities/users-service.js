@@ -45,31 +45,22 @@ export function getToken() {
     return token;
 }
 
-export function getUser() {
-    // let myVar = false
+export async function getUser() {
+    try {
+        const token = await usersAPI.fetchToken();
 
-    // // const token = usersAPI.fetchToken()
-    // const token = getToken();
 
-    // // If there's a token, return the user in the payload
-    // return token ? JSON.parse(atob(token.split('.')[1])).user : null;
 
-    let user = null;
-
-    usersAPI.fetchToken()
-        .then(token => {
-            if (token) {
-
-                user = JSON.parse(atob(token['token'].split('.')[1])).user;
-                return user
-            } else {
-                return null
-            }
-        })
-        .catch(err => console.error(err));
-    console.log('User', user)
-    return user;
-
+        if (token) {
+            let user = JSON.parse(atob(token['token'].split('.')[1])).user;
+            return user
+        } else {
+            return null
+        }
+    } catch (err) {
+        console.error(err);
+        return null; // Make sure to return null or throw error if you want to catch it in the handleSubmit
+    };
 }
 
 export function logOut() {
@@ -77,8 +68,7 @@ export function logOut() {
 }
 
 export async function login(credentials) {
-    const token = await usersAPI.login(credentials);
-
+    // const token = await usersAPI.login(credentials);
     // localStorage.setItem('token', token)
     return getUser();
 }
