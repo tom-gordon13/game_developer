@@ -26,10 +26,23 @@ function App() {
 
   useEffect(() => {
     function handleKeyPress(event) {
-      if (/^[a-zA-Z]$/.test(event.key) && currString.length < 6) {
+      console.log(currString.length)
+      if (/^[a-zA-Z]$/.test(event.key) && currString.length < 5) {
         let updatedString = currString + event.key
-        setCurrString(currString => updatedString);
-        setGuessList(guessList => [...guessList, updatedString]);
+        console.log(currString)
+        setCurrString(updatedString);
+        if (updatedString.length == 5) {
+          setGuessList(guessList => [...guessList, updatedString]);
+        }
+        else if (updatedString.length < 5 && guessList.length > 0) {
+          let newGuessList = [...guessList];
+          newGuessList[newGuessList.length - 1] = updatedString
+          setGuessList(guessList => newGuessList);
+        }
+        else if (updatedString.length < 5 && guessList.length == 0) {
+          setGuessList([updatedString])
+        }
+
 
       }
     }
@@ -38,7 +51,7 @@ function App() {
     return () => {
       window.removeEventListener('keypress', handleKeyPress);
     };
-  });
+  }, [currString, guessList]);
 
 
 
