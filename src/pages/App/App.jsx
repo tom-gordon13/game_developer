@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { getUser } from "../../utilities/users-service"
 import NewOrderPage from '../NewOrderPage/NewOrderPage';
 import OrderHistoryPage from "../OrderHistoryPage/OrderHistoryPage"
@@ -22,7 +22,24 @@ const appStyle = {
 function App() {
   const [user, setUser] = useState(getUser())
   const [currString, setCurrString] = useState('')
-  const [guessList, setGuessList] = useState(['porch'])
+  const [guessList, setGuessList] = useState([])
+
+  useEffect(() => {
+    function handleKeyPress(event) {
+      if (/^[a-zA-Z]$/.test(event.key) && currString.length < 6) {
+        let updatedString = currString + event.key
+        setCurrString(currString => updatedString);
+        setGuessList(guessList => [...guessList, updatedString]);
+
+      }
+    }
+    window.addEventListener('keypress', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keypress', handleKeyPress);
+    };
+  });
+
 
 
   return (

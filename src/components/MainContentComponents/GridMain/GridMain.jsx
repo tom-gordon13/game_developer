@@ -15,7 +15,7 @@ const rowStyle = {
 export default function GridMain({ guessList }) {
     const rows = 4;
     const cols = 5;
-    console.log(guessList)
+
     return (
         <div style={gridContainerStyle}>
             {Array.from({ length: rows }).map((_, rowIndex) => (
