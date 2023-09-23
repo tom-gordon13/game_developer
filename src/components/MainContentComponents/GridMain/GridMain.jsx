@@ -13,7 +13,7 @@ const rowStyle = {
 };
 
 export default function GridMain({ guessList }) {
-    const rows = 4;
+    const rows = 6;
     const cols = 5;
 
     return (
